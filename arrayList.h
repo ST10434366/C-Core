@@ -2,19 +2,20 @@
 #include <stddef.h>
 #include <stdlib.h>
 
-struct arrayList
+typedef struct arrayList
 {
     int size;
     int index;
     int avaliableMemory;
     int *array;
-};
+} arrayList;
 
-void ehllo();
-//Intialisation function
+
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^//
+// Intialisation of arrayList
 void intialiseArray(struct arrayList *a1, int arraySize)
 {
-    a1->array = (int *)malloc(arraySize * sizeof(int)); // 8 bytes
+    a1->array = (int *)calloc(arraySize, arraySize * sizeof(int)); // 8 bytes
 
     if (a1->array == NULL)
     {
@@ -26,7 +27,8 @@ void intialiseArray(struct arrayList *a1, int arraySize)
     a1->avaliableMemory = arraySize * sizeof(int); // The amount of memory the array has
 }
 
-//Add element function 
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^//
+// Add elemet to arrayList
 void addElement(struct arrayList *a1, int element)
 {
     int *status = NULL;
@@ -49,7 +51,8 @@ void addElement(struct arrayList *a1, int element)
     }
 }
 
-//Resize array Function 
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^//
+// Resizes the arrayList
 void resizeArray(struct arrayList *a1)
 {
     //Check for zero value
@@ -72,38 +75,29 @@ void resizeArray(struct arrayList *a1)
     }
 }  
 
-//Remove element functionality 
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^//
+// Removes element from arrayList
 void removeElement(struct arrayList *a1, int elementIndex)
 {
     a1->array[elementIndex] = 0;
     //Add resize array function
 }
 
-//Display all elemenet in the array
-
-// Free memory function 
-
-//Display Indivual Element funciton
-void displayElement(struct arrayList *a1, int index)
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^//
+// Displays all elements in the arrayList
+void displayElements(struct arrayList *a1)
 {
-    printf("\nElement at index %d : %d", index, a1->array[index]);
+    
+    for (int i = 0; i < a1->size; i++)
+    {
+        printf("%d ", a1->array[i]);
+    }
 }
 
 
-int main()
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^//
+// Displays element at specified index in the arrayList
+void displayElement(struct arrayList *a1, int index)
 {
-    struct arrayList a1;
-    intialiseArray(&a1, 2);
-    printf("Size of memory in bytes: %d", a1.avaliableMemory);
-
-    addElement(&a1, 1);
-    addElement(&a1, 2);
-    // removeElement(&a1, 1);
-    // resizeArray(&a1);
-    
-    printf("\nSize of memory in bytes: %d", a1.avaliableMemory);
-    displayElement(&a1, 0);
-    displayElement(&a1, 1);
-    getchar();
-    return 0;
+    printf("\nElement at index %d : %d", index, a1->array[index]);
 }
