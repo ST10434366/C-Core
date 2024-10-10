@@ -56,10 +56,15 @@ void addElement(struct arrayList *a1, int element)
 // Rudimentary but decent for now 
 void arraylist_insert(struct arrayList *a1, int element, int index)
 {
-    int *pointer = NULL, *end = NULL, temp;
+    int *pointer = NULL, *end = NULL;
 
     pointer = (int *) malloc(a1->size * (sizeof(int)));
 
+    if (pointer == NULL)
+    {
+        exit(1);
+    }
+    
     for (int i = 0; i < index; i++)
     {
         pointer[i] = a1->array[i];
