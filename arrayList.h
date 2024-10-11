@@ -10,7 +10,6 @@ typedef struct arrayList
     int *array;
 } arrayList;
 
-
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^//
 // Intialisation of arrayList
 void intialiseArray(struct arrayList *a1, int arraySize)
@@ -56,7 +55,7 @@ void addElement(struct arrayList *a1, int element)
 // Rudimentary but decent for now 
 void arraylist_insert(struct arrayList *a1, int element, int index)
 {
-    int *pointer = NULL, *end = NULL;
+    int *pointer = NULL;
 
     pointer = (int *) malloc(a1->size * (sizeof(int)));
 
@@ -82,13 +81,52 @@ void arraylist_insert(struct arrayList *a1, int element, int index)
 }
 
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^//
-// Removes element at specific index and shirts elements down
+// Removes element at specific index and shifts elements down
+void arraylist_remove(struct arrayList *a1, int element, int index)
+{
+    int *pointer = NULL;
+    pointer = (int *) malloc(a1->size * sizeof(int));
+
+    if (pointer == NULL)
+    {
+        exit(1);
+    }
+    
+    for (int i = 0; i < index; i++)
+    {
+        pointer[i] = a1->array[i];
+    }
+    
+    pointer[index] = element;
+
+    for (int i = index + 1; i < a1->size; i++)
+    {
+        pointer[i] = a1->array[i];
+    }
+    
+    free(a1->array);
+    a1->array = pointer;
+}
 
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^//
 // Pops/removes the last element of the array
+void arraylist_pop(struct arrayList *a1)
+{
+    a1->array[a1->index - 1] = 0;
+}
 
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^//
 // Cleares all the elements but keeps the memory allocated for array
+void arraylist_clear(struct arrayList *a1)
+{
+    int *end = a1->array + a1->index;
+
+    for (; a1->array < end; a1->array++)
+    {
+        a1->array = 0;
+    }
+    
+}
 
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^//
 // Returns elements at specifc index (maybe use void pointer so it is not type specifc)
@@ -177,13 +215,15 @@ void removeElement(struct arrayList *a1, int elementIndex)
 // Displays all elements in the arrayList
 void displayElements(struct arrayList *a1)
 {
-    
+    //use a counter in the struct to determine the correct number of elements ot print instead of filtering by zero (which maybe an actual element)
     for (int i = 0; i < a1->size; i++)
     {
-        printf("%d ", a1->array[i]);
+        if (a1->array[i] != 0)
+        {
+            printf("%d ", a1->array[i]);
+        }
     }
 }
-
 
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^//
 // Displays element at specified index in the arrayList
