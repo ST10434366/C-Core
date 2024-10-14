@@ -2,13 +2,14 @@
 #include <stdio.h>
 #include <stddef.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 typedef struct arrayList
 {
-    int size;
-    int index;
-    int avaliableMemory;
-    int *array;
+    int     size;
+    int     index;
+    int     avaliableMemory;
+    int     *array;
 } arrayList;
 
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^//
@@ -164,6 +165,10 @@ int arraylist_bytes(struct arrayList *a1)
 
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^//
 // Return if array is empty (boolean value)
+bool arraylist_is_empty(struct arrayList *a1)
+{
+    return a1->index > 0;
+}
 
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^//
 // Resize the array to a new size preserving existing elements 
