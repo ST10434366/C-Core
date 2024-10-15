@@ -219,10 +219,30 @@ void arraylist_sort_descending(struct arrayList *a1)
 // Swaps two elements in the arraylist 
 
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^//
-// Reverses the order of elements withing the array 
+// Reverses the order of elements within the array (NOTE: IMPROVE THE READABILITY)
+void arraylist_reverse(struct arrayList *a1)
+{
+    int *pointer = NULL;
+    pointer = (int *) malloc(a1->size * sizeof(int));
+
+    if (pointer == NULL)
+    {
+        exit(1);
+    }
+
+    for (int i = a1->size, x = 0; i > 0; i--, x++)
+    {
+        pointer[x]= a1->array[i];
+        
+    }
+    
+    free(a1->array);
+    a1->array = pointer;
+    free(pointer);
+}
 
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^//
-// Maps a function to each array element 
+// Maps a function to each array element (Add a struct within the struct that acts as a map for each element)
 
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^//
 // Filter and create new array list with elements that have satisfied a condition 
@@ -232,6 +252,7 @@ void arraylist_sort_descending(struct arrayList *a1)
 
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^//
 // Creates a deep copy of the arraylist 
+
 
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^//
 // Custom comparators sets a custom comparison 

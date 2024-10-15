@@ -16,8 +16,15 @@ int main(int argc, char const *argv[])
     addElement(&array, 23);
     addElement(&array, 1);
     
-    arraylist_sort_descending(&array);
-    displayElements(&array);
+    // arraylist_sort_descending(&array);
+    // arraylist_reverse(&array);
+    // displayElements(&array);
+    arraylist_sort_ascending(&array);
+    // displayElements(&array);
+
+    arrayList array2 = arraylist_copy(&array);
+    arraylist_sort_ascending(&array);
+    displayElements(&array2);
 
     getchar();
     return 0;
