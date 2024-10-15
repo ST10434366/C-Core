@@ -143,7 +143,7 @@ int arraylist_front(struct arrayList *a1)
 
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^//
 // Return the last element of the array
-//Requires a counter to return a user inserted value otherwise 0 place holder will be returned
+// Requires a counter to return a user inserted value otherwise 0 place holder will be returned
 
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^//
 // Return the size of the array 
@@ -180,7 +180,40 @@ bool arraylist_is_empty(struct arrayList *a1)
 // Searches the array for a specific index and returns false if not found 
 
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^//
-// Sorts the array
+// Bubble Sorts the array in ascending order
+void arraylist_sort_ascending(struct arrayList *a1)
+{
+    for (int x = 0; x < a1->size; x++)
+    {
+        for (int i = 0; i < a1->size - 1; i++)
+        {
+            if (a1->array[i] > a1->array[i + 1])
+            {
+                int temp = a1->array[i];
+                a1->array[i] = a1->array[i + 1];
+                a1->array[i + 1] = temp;
+            }
+        }
+    }
+}
+
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^//
+// Bubble Sorts the array in descending order
+void arraylist_sort_descending(struct arrayList *a1)
+{
+    for (int x = 0; x < a1->size; x++)
+    {
+        for (int i = 0; i < a1->size - 1; i++)
+        {
+            if (a1->array[i] < a1->array[i + 1])
+            {
+                int temp = a1->array[i];
+                a1->array[i] = a1->array[i + 1];
+                a1->array[i + 1] = temp;
+            }
+        }
+    }
+}
 
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^//
 // Swaps two elements in the arraylist 
@@ -195,7 +228,7 @@ bool arraylist_is_empty(struct arrayList *a1)
 // Filter and create new array list with elements that have satisfied a condition 
 
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^//
-// Iteratres over teh elements applying a function to it (for loop)
+// Iteratres over the elements applying a function to it (for loop)
 
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^//
 // Creates a deep copy of the arraylist 
