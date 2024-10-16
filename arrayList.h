@@ -8,6 +8,7 @@ typedef struct arrayList
 {
     int     size;
     int     index;
+    int     elements;
     int     avaliableMemory;
     int     *array;
 } arrayList;
@@ -26,6 +27,7 @@ void intialiseArray(struct arrayList *a1, int arraySize)
     a1->size = arraySize; //How many elements can be stored in the array
     a1->index = 0; // The current index 
     a1->avaliableMemory = arraySize * sizeof(int); // The amount of memory the array has
+    a1->elements = 0;
 }
 
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^//
@@ -50,6 +52,7 @@ void addElement(struct arrayList *a1, int element)
     {
         a1->array[a1->index ++] = element;
     }
+    a1->elements++;
 }
 
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^//
@@ -108,6 +111,7 @@ void arraylist_remove(struct arrayList *a1, int element, int index)
     
     free(a1->array);
     a1->array = pointer;
+    a1->elements--;
 }
 
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^//
@@ -128,6 +132,7 @@ void arraylist_clear(struct arrayList *a1)
     {
         a1->array = 0;
     }
+    a1->elements = 0;
     
 }
 
@@ -144,6 +149,10 @@ int arraylist_front(struct arrayList *a1)
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^//
 // Return the last element of the array
 // Requires a counter to return a user inserted value otherwise 0 place holder will be returned
+int arraylist_back(struct arrayList *a1)
+{
+    return *(a1->array + a1->elements - 1);
+}
 
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^//
 // Return the size of the array 
@@ -171,21 +180,45 @@ bool arraylist_is_empty(struct arrayList *a1)
 }
 
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^//
-// Resize the array to a new size preserving existing elements 
-
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^//
 // Shrink the array to fit the existing elements
+void arraylist_shrink_to_fit(struct arrayList *a1)
+{
+    int* pointer = NULL;
+    pointer = (int *) malloc(a1->elements * sizeof(int));
+
+    if (pointer == NULL)
+    {
+        exit(1);
+    }
+    
+    for (int i = 0; i < 8; i++)
+    {
+        pointer[i] = a1->array[i];
+    }
+
+    free(a1->array);
+    a1->array = pointer;
+}
 
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^//
 // Searches the array for a specific index and returns false if not found 
+bool arraylist_find(struct arrayList *a1, int index)
+{
+    if (a1->array[index])
+    {
+        return true;
+    }
+    
+    return false;
+}
 
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^//
 // Bubble Sorts the array in ascending order
 void arraylist_sort_ascending(struct arrayList *a1)
 {
-    for (int x = 0; x < a1->size; x++)
+    for (int x = 0; x < a1->elements; x++)
     {
-        for (int i = 0; i < a1->size - 1; i++)
+        for (int i = 0; i < a1->elements - 1; i++)
         {
             if (a1->array[i] > a1->array[i + 1])
             {
@@ -201,9 +234,9 @@ void arraylist_sort_ascending(struct arrayList *a1)
 // Bubble Sorts the array in descending order
 void arraylist_sort_descending(struct arrayList *a1)
 {
-    for (int x = 0; x < a1->size; x++)
+    for (int x = 0; x < a1->elements; x++)
     {
-        for (int i = 0; i < a1->size - 1; i++)
+        for (int i = 0; i < a1->elements - 1; i++)
         {
             if (a1->array[i] < a1->array[i + 1])
             {
@@ -294,12 +327,13 @@ void removeElement(struct arrayList *a1, int elementIndex)
 void displayElements(struct arrayList *a1)
 {
     //use a counter in the struct to determine the correct number of elements ot print instead of filtering by zero (which maybe an actual element)
-    for (int i = 0; i < a1->size; i++)
+    for (int i = 0; i < a1->elements; i++)
     {
-        if (a1->array[i] != 0)
-        {
-            printf("%d ", a1->array[i]);
-        }
+        // if (a1->array[i] != 0)
+        // {
+        //     printf("%d ", a1->array[i]);
+        // }
+        printf("%d ", a1->array[i]);
     }
 }
 

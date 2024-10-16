@@ -21,10 +21,9 @@ int main(int argc, char const *argv[])
     // displayElements(&array);
     arraylist_sort_ascending(&array);
     // displayElements(&array);
-
-    arrayList array2 = arraylist_copy(&array);
-    arraylist_sort_ascending(&array);
-    displayElements(&array2);
+    
+    printf("The index is found: %d\n",arraylist_back(&array));
+    displayElements(&array);
 
     getchar();
     return 0;
