@@ -15,7 +15,7 @@ typedef struct arrayList
 
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^//
 // Intialisation of arrayList
-void intialiseArray(struct arrayList *a1, int arraySize)
+void intialise_arrayList(struct arrayList *a1, int arraySize)
 {
     a1->array = (int *)calloc(arraySize, arraySize * sizeof(int)); // 8 bytes
 
@@ -32,7 +32,7 @@ void intialiseArray(struct arrayList *a1, int arraySize)
 
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^//
 // Add elemet to arrayList
-void addElement(struct arrayList *a1, int element)
+void add_element(struct arrayList *a1, int element)
 {
     int *status = NULL;
 
@@ -171,6 +171,10 @@ int arraylist_bytes(struct arrayList *a1)
 
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^//
 // Return the current allocated capacity of the array (number of elements)
+int arraylist_capacity(struct arrayList *a1)
+{
+    return a1->size;
+}
 
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^//
 // Return if array is empty (boolean value)
