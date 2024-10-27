@@ -289,7 +289,12 @@ void arraylist_reverse(struct arrayList *a1)
 
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^//
 // Creates a deep copy of the arraylist 
-
+arrayList deep_copy(struct arrayList *a1)
+{   
+    arrayList copy;
+    copy = *a1;
+    return copy;
+}
 
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^//
 // Custom comparators sets a custom comparison 

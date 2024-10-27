@@ -3,27 +3,17 @@
 
 int main(int argc, char const *argv[])
 {
-    arrayList array;
+    arrayList array, array2;
 
-    intialiseArray(&array, 10);
+
+    intialise_arrayList(&array, 10);
     
-    addElement(&array, 10);
-    addElement(&array, 2);
-    addElement(&array, 5);
-    addElement(&array, 1);
-    addElement(&array, 20);
-    addElement(&array, 21);
-    addElement(&array, 23);
-    addElement(&array, 1);
-    
-    // arraylist_sort_descending(&array);
-    // arraylist_reverse(&array);
+    add_element(&array, 10);
+
     // displayElements(&array);
-    arraylist_sort_ascending(&array);
-    // displayElements(&array);
-    
-    printf("The index is found: %d\n",arraylist_back(&array));
-    displayElements(&array);
+    array2 = deep_copy(&array);
+    add_element(&array2, 11);
+    displayElements(&array2);
 
     getchar();
     return 0;
