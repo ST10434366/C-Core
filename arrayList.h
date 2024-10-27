@@ -212,7 +212,7 @@ bool arraylist_find(struct arrayList *a1, int index)
     {
         return true;
     }
-    
+
     return false;
 }
 
