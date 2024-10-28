@@ -4,20 +4,29 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
+typedef enum Type
+{
+    INT     = sizeof(int),
+    FLOAT   = sizeof(float),
+    DOUBLE  = sizeof(double),
+    CHAR    = sizeof(char)
+} Type;
+
 typedef struct arrayList
 {
     int     size;
     int     index;
     int     elements;
     int     avaliableMemory;
-    int     *array;
+    void    *array;
+    Type    dataType;
 } arrayList;
 
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^//
 // Intialisation of arrayList
-void intialise_arrayList(struct arrayList *a1, int arraySize)
+void intialise_arrayList(struct arrayList *a1, int arraySize, Type dataType)
 {
-    a1->array = (int *)calloc(arraySize, arraySize * sizeof(int)); // 8 bytes
+    a1->array = (void *)calloc(arraySize, arraySize * dataType); // 8 bytes
 
     if (a1->array == NULL)
     {
@@ -26,31 +35,41 @@ void intialise_arrayList(struct arrayList *a1, int arraySize)
     
     a1->size = arraySize; //How many elements can be stored in the array
     a1->index = 0; // The current index 
-    a1->avaliableMemory = arraySize * sizeof(int); // The amount of memory the array has
+    a1->avaliableMemory = arraySize * dataType; // The amount of memory the array has
     a1->elements = 0;
+    a1->dataType = dataType;
 }
 
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^//
 // Add elemet to arrayList
-void add_element(struct arrayList *a1, int element)
+void add_element(struct arrayList *a1, double element)
 {
-    int *status = NULL;
+    double *status = NULL;
 
     if (a1->index == a1->size)
     {
-        status = (int *)realloc(a1->array, a1->size * sizeof(int));
+        status = (double *)realloc(a1->array, a1->size * sizeof(double));
         if (status == NULL)
         {
             exit(1);
         }
 
+        switch (a1->dataType)
+        {
+        case DOUBLE:
+            ((double * )(a1-> array))[a1->index++] = element;
+            break;
+        
+        default:
+            break;
+        }
+
         a1->size = a1->size * 2;
         a1->avaliableMemory = a1->avaliableMemory * 2;
-        a1->array[a1->index++] = element;
     }
     else
     {
-        a1->array[a1->index ++] = element;
+        ((double *)(a1->array))[a1->index++] = element;
     }
     a1->elements++;
 }
@@ -342,7 +361,7 @@ void displayElements(struct arrayList *a1)
         // {
         //     printf("%d ", a1->array[i]);
         // }
-        printf("%d ", a1->array[i]);
+        printf("%lf ", ((double *)a1->array)[i]);
     }
 }
 

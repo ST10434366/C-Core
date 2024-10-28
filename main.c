@@ -6,14 +6,11 @@ int main(int argc, char const *argv[])
     arrayList array, array2;
 
 
-    intialise_arrayList(&array, 10);
-    
+    intialise_arrayList(&array, 10, DOUBLE);
     add_element(&array, 10);
-
-    // displayElements(&array);
-    array2 = deep_copy(&array);
-    add_element(&array2, 11);
-    displayElements(&array2);
+    displayElements(&array);
+    
+    
 
     getchar();
     return 0;
