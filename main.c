@@ -6,7 +6,11 @@ int main(int argc, char const *argv[])
     arrayList array, array2;
 
 
-    intialise_arrayList(&array, 10, DOUBLE);
+    intialise_arrayList(&array, 1, INT);
+    add_element(&array, 10);
+    add_element(&array, 10);
+    add_element(&array, 10);
+    add_element(&array, 10);
     add_element(&array, 10);
     displayElements(&array);
     

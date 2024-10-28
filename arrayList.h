@@ -37,31 +37,37 @@ void intialise_arrayList(struct arrayList *a1, int arraySize, Type dataType)
     a1->index = 0; // The current index 
     a1->avaliableMemory = arraySize * dataType; // The amount of memory the array has
     a1->elements = 0;
-    a1->dataType = dataType;
+    a1->dataType = dataType; // For reference of the type employed 
 }
 
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^//
 // Add elemet to arrayList
-void add_element(struct arrayList *a1, double element)
+void add_element(struct arrayList *a1, int element)
 {
-    double *status = NULL;
+    void *status = NULL;
 
+    // No longer any space in the arrayList
     if (a1->index == a1->size)
     {
-        status = (double *)realloc(a1->array, a1->size * sizeof(double));
+        // Reallocates memory (no cast as realloc returns void pointer by default)
+        status = realloc(a1->array, a1->size * sizeof(a1->dataType));
+        //Checks for failure in memory allocation 
         if (status == NULL)
         {
             exit(1);
         }
 
+        // Inserts specified element
         switch (a1->dataType)
         {
-        case DOUBLE:
-            ((double * )(a1-> array))[a1->index++] = element;
-            break;
-        
-        default:
-            break;
+            case INT:
+                ((int *)(a1->array))[a1->index++] = element;
+                break;  
+            case DOUBLE:
+                ((double *)(a1-> array))[a1->index++] = (double) element;
+                break;
+            default:
+                break;
         }
 
         a1->size = a1->size * 2;
@@ -69,7 +75,7 @@ void add_element(struct arrayList *a1, double element)
     }
     else
     {
-        ((double *)(a1->array))[a1->index++] = element;
+        ((int *)(a1->array))[a1->index++] = element;
     }
     a1->elements++;
 }
@@ -352,16 +358,34 @@ void removeElement(struct arrayList *a1, int elementIndex)
 
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^//
 // Displays all elements in the arrayList
+// Add a switch statement to display different types 
 void displayElements(struct arrayList *a1)
 {
-    //use a counter in the struct to determine the correct number of elements ot print instead of filtering by zero (which maybe an actual element)
-    for (int i = 0; i < a1->elements; i++)
+
+    switch (a1->dataType)
     {
-        // if (a1->array[i] != 0)
-        // {
-        //     printf("%d ", a1->array[i]);
-        // }
-        printf("%lf ", ((double *)a1->array)[i]);
+    case INT:
+        //use a counter in the struct to determine the correct number of elements ot print instead of filtering by zero (which maybe an actual element)
+        for (int i = 0; i < a1->elements; i++)
+            {
+                // if (a1->array[i] != 0)
+                // {
+                //     printf("%d ", a1->array[i]);
+                // }
+                printf("%d ", ((int *)a1->array)[i]);
+            }
+            break;
+    case DOUBLE:
+        for (int i = 0; i < a1->elements; i++)
+        {
+            // if (a1->array[i] != 0)
+            // {
+            //     printf("%d ", a1->array[i]);
+            // }
+            printf("%lf ", ((double *)a1->array)[i]);
+        }
+    default:
+        break;
     }
 }
 
