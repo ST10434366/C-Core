@@ -26,7 +26,7 @@ typedef struct arrayList
 // Intialisation of arrayList
 void intialise_arrayList(struct arrayList *a1, int arraySize, Type dataType)
 {
-    a1->array = (void *)calloc(arraySize, arraySize * dataType); // 8 bytes
+    a1->array = (void *)calloc(arraySize, dataType); // 8 bytes
 
     if (a1->array == NULL)
     {
@@ -82,31 +82,66 @@ void add_element(struct arrayList *a1, int element)
 
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^//
 // Insert element at specific index shifting other elements
-// Rudimentary but decent for now 
-void arraylist_insert(struct arrayList *a1, int element, int index)
+// Have to use a void pointer for the element 
+void arraylist_insert(struct arrayList *a1, void* element, int index)
 {
-    int *pointer = NULL;
+    void *pointer = NULL;
 
-    pointer = (int *) malloc(a1->size * (sizeof(int)));
+    pointer = malloc(a1->size * (sizeof(double)));
 
     if (pointer == NULL)
     {
         exit(1);
     }
     
-    for (int i = 0; i < index; i++)
+    switch (a1->dataType)
     {
-        pointer[i] = a1->array[i];
-    }
+    case INT:
 
-    pointer[index] = element;
+        for (int i = 0; i < index; i++)
+        {
+            // Inserts the values before the specified index into new memory block 
+            ((int *) pointer)[i] = ((int *)(a1->array))[i];
+        }
+        // Inserts the value into specified index of new memory block
+        ((int *)pointer)[index] = *((int*) element);
+        // ((int *)pointer)[index + 1] = ((int *)a1->array)[index];
+        // Increments number of elements to account for the new size due to shifting 
+        a1->elements++;
 
-    for (int i = index+ 1; i < a1->size; i++)
-    {
-        pointer[i] = a1->array[i];
-    }
+        // FIRST IDEATION: Inserts subsquent elements from previous memory address into the new one.
+        for (int i = index + 1, x = index; i < a1->elements; i++ , x++)
+        {
+            ((int *)pointer)[i] = ((int *)(a1->array))[x];
+        }
+        break;
     
+    case DOUBLE:
+        
+        for (int i = 0; i < index; i++)
+        {
+            // Inserts the values before the specified index into new memory block 
+            ((double *) pointer)[i] = ((double *)(a1->array))[i];
+        }
+        // Inserts the value into specified index of new memory block
+        ((double *)pointer)[index] = *((int*) element);
+        // ((int *)pointer)[index + 1] = ((int *)a1->array)[index];
+        // Increments number of elements to account for the new size due to shifting 
+        a1->elements++;
+
+        // FIRST IDEATION: Inserts subsquent elements from previous memory address into the new one.
+        for (int i = index + 1, x = index; i < a1->elements; i++ , x++)
+        {
+            ((double *)pointer)[i] = ((double *)(a1->array))[x];
+        }
+        break;
+    default:
+        break;
+    }
+
+    // Releases the memory of the previous arrayList
     free(a1->array);
+    // Assigns the new pointer
     a1->array = pointer;
 }
 
