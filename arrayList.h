@@ -26,7 +26,7 @@ typedef struct arrayList
 // Intialisation of arrayList
 void intialise_arrayList(struct arrayList *a1, int arraySize, Type dataType)
 {
-    a1->array = (void *)calloc(arraySize, dataType); // 8 bytes
+    a1->array = (void *)calloc(arraySize, sizeof(double)); // 8 bytes
 
     if (a1->array == NULL)
     {
@@ -75,7 +75,10 @@ void add_element(struct arrayList *a1, int element)
     }
     else
     {
-        ((int *)(a1->array))[a1->index++] = element;
+        // Here was the malevolent little bug, some values did not display because it was casting the pointer to a different data type 
+        // E.g. ((int *)(a1->array))[a1->index++] = *((double *)element);
+        // Ensure that both data types are correct and it is smooth sailing
+        ((double *)(a1->array))[a1->index++] = (double) element;
     }
     a1->elements++;
 }
@@ -83,7 +86,7 @@ void add_element(struct arrayList *a1, int element)
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^//
 // Insert element at specific index shifting other elements
 // Have to use a void pointer for the element 
-void arraylist_insert(struct arrayList *a1, void* element, int index)
+void arraylist_insert(struct arrayList *a1, int element, int index)
 {
     void *pointer = NULL;
 
@@ -104,7 +107,7 @@ void arraylist_insert(struct arrayList *a1, void* element, int index)
             ((int *) pointer)[i] = ((int *)(a1->array))[i];
         }
         // Inserts the value into specified index of new memory block
-        ((int *)pointer)[index] = *((int*) element);
+        ((int *)pointer)[index] = element;
         // ((int *)pointer)[index + 1] = ((int *)a1->array)[index];
         // Increments number of elements to account for the new size due to shifting 
         a1->elements++;
@@ -124,7 +127,7 @@ void arraylist_insert(struct arrayList *a1, void* element, int index)
             ((double *) pointer)[i] = ((double *)(a1->array))[i];
         }
         // Inserts the value into specified index of new memory block
-        ((double *)pointer)[index] = *((int*) element);
+        ((double *)pointer)[index] = (double) element;
         // ((int *)pointer)[index + 1] = ((int *)a1->array)[index];
         // Increments number of elements to account for the new size due to shifting 
         a1->elements++;
