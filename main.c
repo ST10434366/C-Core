@@ -13,7 +13,7 @@ int main(int argc, char const *argv[])
     add_element(&array, 10);
     add_element(&array, 10);
 
-    arraylist_insert(&array, &element, 3);
+    // arraylist_insert(&array, 20, 3);
     displayElements(&array);
 
     getchar();

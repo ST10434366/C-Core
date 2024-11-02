@@ -64,7 +64,7 @@ double cast_helper(int element)
     return (double) element;
 }
 
-void arraylist_insert(struct arrayList *a1, void * element, int index)
+void arraylist_insert(struct arrayList *a1, int element, int index)
 {
     void *pointer = NULL;
 
@@ -81,7 +81,7 @@ void arraylist_insert(struct arrayList *a1, void * element, int index)
         }
         a1->elements++;
         // Insert the double element
-        ((double *)pointer)[index] =  cast_helper(*(int *)element);
+        ((double *)pointer)[index] = (double)element;
 
         for (int i = index + 1, x = index; i < a1->elements + 1; i++, x++)
         {
@@ -106,7 +106,6 @@ void displayElements(struct arrayList *a1)
             // }
             printf("%f ", ((double *)a1->array)[i]);
         }
-
 }
 
 
@@ -120,7 +119,7 @@ int main(int argc, char const *argv[])
     add_element(&array, 10);
     add_element(&array, 10);
     add_element(&array, 10);
-    arraylist_insert(&array, &element, 2);
+    arraylist_insert(&array, 20, 2);
     displayElements(&array);
 
     getchar();
